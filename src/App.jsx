@@ -12,9 +12,7 @@ function App() {
   return (
     <Router>
       <Layout>
-        <Header>
           <HeaderComponents />
-        </Header>
         <Content>
           <Routes>
             <Route path="/" element={<Home />} />

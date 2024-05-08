@@ -1,6 +1,44 @@
+import { Button, Checkbox, Divider, Form, Input } from "antd";
+import { Link } from "react-router-dom";
+
 const Login = () => {
+    const onFinish = (values) => {
+        console.log('Received values of form: ', values);
+      };
+    
+      const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+      };
+
     return (
-        <div style={{justifyContent: 'center', alignItems: 'center'}}>Login</div>
+        <div className="mainContainer">
+            <Form
+                name="login"
+                className="loginForm"
+                initialValues={{remember: true}}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                >
+                <div style={{fontSize: '42px', fontWeight: 'bold', textAlign: 'center', color: '#1890ff', marginBottom: '5%'}}>Log In</div>
+                <Divider />
+                <div>E-mail</div>
+                <Form.Item name="email" rules={[{required: true, message: 'Please input your E-mail'}]}  >
+                    <Input placeholder="user@email.com"/>
+                </Form.Item> 
+                <div>Password</div>
+                <Form.Item name="password" rules={[{required: true, message: 'Please input your password'}]} >
+                    <Input.Password placeholder="********" />
+                </Form.Item>
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Checkbox style={{marginTop: '1%'}}>Remember me</Checkbox>
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="login-form-button" style={{width: '100%', marginTop: '8%', fontWeight: 'bold', fontSize: '15px'}}>
+                        Log in
+                    </Button>
+                </Form.Item>
+            </Form>
+        </div>
     )
 };
 

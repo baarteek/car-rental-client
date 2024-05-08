@@ -49,7 +49,7 @@ const styles = {
     logo: {
         marginRight: '5%',
         fontWeight: 'bold', 
-        fontSize: '30px'
+        fontSize: '32px',
     },
 }
 
