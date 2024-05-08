@@ -3,6 +3,8 @@ import { Layout } from 'antd';
 import Home from './views/Home';
 import Login from './views/Login';
 import Registration from './views/Registration';
+import HeaderComponents from './components/HeaderComponents';
+import './App.css';
 
 const { Header, Content } = Layout;
 
@@ -11,7 +13,7 @@ function App() {
     <Router>
       <Layout>
         <Header>
-          
+          <HeaderComponents />
         </Header>
         <Content>
           <Routes>

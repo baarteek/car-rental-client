@@ -1,6 +1,84 @@
 const Home = () => {
     return (
-        <div>Home</div>
+        <>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        <div style={{justifyContent: 'center', alignItems: 'center'}}>Home</div>
+        </>
     )
 };
 
