@@ -51,7 +51,7 @@ const Registration = () => {
                     </Checkbox>
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button" style={{width: '100%', marginTop: '8%', fontWeight: 'bold', fontSize: '15px'}}>
+                    <Button type="primary" htmlType="submit" className="login-form-button" style={{width: '100%', marginTop: '1%', fontWeight: 'bold', fontSize: '15px'}}>
                         Sign Up
                     </Button>
                 </Form.Item>

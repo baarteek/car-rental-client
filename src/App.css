@@ -1,17 +1,24 @@
 .ant-layout-header {
   background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2%;
+}
+
+body{
+  margin: 0;
 }
 
 .mainContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 92vh;
+  height: 90vh;
 }
 
 .loginForm {
   padding: 5% ;
+  padding-top: 3%;
+  padding-bottom: 3%;
   background: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
