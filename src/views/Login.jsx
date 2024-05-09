@@ -1,7 +1,10 @@
 import { Button, Checkbox, Divider, Form, Input } from "antd";
 import { Link } from "react-router-dom";
+import { useMenu } from "../context/MenuProvider";
 
 const Login = () => {
+    const {selectedKey, setSelectedKey} = useMenu();
+
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
       };
@@ -37,6 +40,10 @@ const Login = () => {
                         Log in
                     </Button>
                 </Form.Item>
+                <Divider style={{borderColor: '#333'}}>or</Divider>
+                <div style={{width: '100%', textAlign: 'center'}}>
+                    <Link to="/registration" onClick={() => setSelectedKey('7')} style={{fontWeight: 'bold', fontSize: '18px'}}>Create an account</Link>
+                </div> 
             </Form>
         </div>
     )
