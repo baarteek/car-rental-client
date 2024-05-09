@@ -11,7 +11,7 @@ const HeaderComponents = () => {
         <Affix offsetTop={0}>
             <Header>
                 <Menu theme="light" mode="horizontal" selectedKeys={[selectedKey]} style={styles.fullWidthMenu}>
-                    <div style={styles.logo}><Link to="/">Car Rental</Link></div>
+                    <div style={styles.logo}><Link to="/" onClick={() => setSelectedKey('1')}>Car Rental</Link></div>
                     <Menu.Item key="1" onClick={() => setSelectedKey('1')}>
                         <Link to="/">Home</Link>
                     </Menu.Item>

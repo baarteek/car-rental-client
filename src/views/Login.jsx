@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useMenu } from "../context/MenuProvider";
 
 const Login = () => {
-    const {selectedKey, setSelectedKey} = useMenu();
+    const {setSelectedKey} = useMenu();
 
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
@@ -25,7 +25,7 @@ const Login = () => {
                 <div style={{fontSize: '42px', fontWeight: 'bold', textAlign: 'center', color: '#1890ff', marginBottom: '5%'}}>Log In</div>
                 <Divider />
                 <div>E-mail</div>
-                <Form.Item name="email" rules={[{required: true, message: 'Please input your E-mail'}]}  >
+                <Form.Item name="email" rules={[{required: true, message: 'Please input your E-mail', type: 'email'}]}  >
                     <Input placeholder="user@email.com"/>
                 </Form.Item> 
                 <div>Password</div>
