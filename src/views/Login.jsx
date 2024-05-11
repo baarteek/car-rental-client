@@ -61,7 +61,7 @@ const Login = () => {
                 </Form.Item>
                 <Divider style={{borderColor: '#333'}}>or</Divider>
                 <div style={{width: '100%', textAlign: 'center'}}>
-                    <Link to="/registration" onClick={() => setSelectedKey('7')} style={{fontWeight: 'bold', fontSize: '18px'}}>Create an account</Link>
+                    <Link to="/registration" onClick={() => setSelectedKey('signup')} style={{fontWeight: 'bold', fontSize: '18px'}}>Create an account</Link>
                 </div> 
             </Form>
         </div>
