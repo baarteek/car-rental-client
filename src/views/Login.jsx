@@ -1,13 +1,31 @@
-import { Button, Checkbox, Divider, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Alert, Button, Checkbox, Divider, Form, Input } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { useMenu } from "../context/MenuProvider";
+import { useState } from "react";
+import axios from "axios";
+import { useAuth } from "../context/AuthProvider";
 
 const Login = () => {
+    const navigate = useNavigate();
     const {setSelectedKey} = useMenu();
+    const { login } = useAuth();
+    const [error, setError] = useState('');
 
-    const onFinish = (values) => {
-        console.log('Received values of form: ', values);
-      };
+    const onFinish = async (values) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate' , {
+                email: values.email,
+                password: values.password
+            });
+            login(response.data.token);
+            console.log('Login successful', response.data);
+            setError('');
+            navigate('/');
+        } catch (error) {   
+            const errorMsg = error.response?.data?.message ||  "Login failed. Please check your credentials."
+            setError(errorMsg);
+        }
+    }
     
       const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
@@ -35,6 +53,7 @@ const Login = () => {
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                     <Checkbox style={{marginTop: '1%'}}>Remember me</Checkbox>
                 </Form.Item>
+                { error && <Alert message={error} type="error" showIcon closable style={{marginTop: '3%'}} /> }
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button" style={{width: '100%', marginTop: '8%', fontWeight: 'bold', fontSize: '15px'}}>
                         Log in
