@@ -11,15 +11,24 @@ import {
   FundOutlined,
   DashboardOutlined as MileageOutlined
 } from '@ant-design/icons';
+import {  useNavigate } from 'react-router-dom';
 
 const { Text } = Typography;
 
 const VehicleCard = ({ vehicle }) => {
+    const navigate = useNavigate()
     const isUnavailable = vehicle.status === 'rented' || vehicle.status === 'in service';
+
+    const handleCardClick = () => {
+        if (!isUnavailable) {
+            navigate(`/reserve/${vehicle.vehicleID}`);
+        }
+    };
 
     return (
         <Card
             hoverable={!isUnavailable}
+            onClick={handleCardClick}
             style={{ 
                 width: '100%', 
                 margin: '20px 0',
@@ -65,7 +74,7 @@ const VehicleCard = ({ vehicle }) => {
                             <MileageOutlined /> Mileage: <b>{vehicle.mileage} km</b>
                         </List.Item>
                         <List.Item>
-                            <FundOutlined /> Status: {isUnavailable ? <Text type="danger">Unavailable</Text> : <b>{vehicle.status}</b>}
+                            <FundOutlined /> Status: {isUnavailable ? <Text type="danger">Unavailable</Text> : <b style={{color: 'green'}}>{vehicle.status}</b>}
                         </List.Item>
                         <List.Item style={{fontSize: '22px', fontWeight: 'bold', marginTop: '1%'}}>
                             <DollarCircleOutlined style={{marginRight: '1%'}}/>Price per day: <b style={{color: 'green', fontSize: '22px'}}>{vehicle.pricePerDay} PLN</b>
