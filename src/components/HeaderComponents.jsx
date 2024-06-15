@@ -38,7 +38,7 @@ const HeaderComponents = () => {
                         <Link to="/fleet">Fleet</Link>
                     </Menu.Item>
                     <Menu.Item key="4" onClick={() => setSelectedKey('4')}>
-                        <Link to="/">Contact</Link>
+                        <Link to="/contacts">Contact</Link>
                     </Menu.Item>
                     <Menu.Item key="5" onClick={() => setSelectedKey('5')}>
                         <Link to="/aboutus">About Us</Link>

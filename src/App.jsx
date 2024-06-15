@@ -10,6 +10,7 @@ import Booking from './views/Booking';
 import Fleet from './views/Fleet';
 import Reservation from './views/Reservation';
 import AboutUs from './views/AboutUs';
+import Contacts from './views/Contacts';
 
 const { Header, Content } = Layout;
 
@@ -26,6 +27,7 @@ function App() {
               <Route path="/registration" element={<Registration />} />
               <Route path="/booking" element={<Booking />} />
               <Route path="/fleet" element={<Fleet />} />
+              <Route path="/contacts" element={<Contacts />} />
               <Route path="/aboutus" element={<AboutUs />} />
               <Route path="/reserve/:vehicleId" element={<Reservation />} />
             </Routes>

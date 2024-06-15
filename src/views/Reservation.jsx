@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
-import { DatePicker, Button, Form, Input, notification, Card, Typography, Select } from 'antd';
-import { useParams } from 'react-router-dom';
+import { DatePicker, Button, Form, Input, notification, Card, Typography, Select, Divider } from 'antd';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import '../App.css';
 
@@ -11,6 +12,7 @@ const { Option } = Select;
 
 const Reservation = () => {
     const { vehicleId } = useParams();
+    const navigate = useNavigate();
     const [vehicle, setVehicle] = useState({});
     const [insurances, setInsurances] = useState([]);
     const [selectedInsurance, setSelectedInsurance] = useState(null);
@@ -69,7 +71,7 @@ const Reservation = () => {
     return (
         <div className='mainContainer' style={{padding: '5%'}}>
             <Card bordered={true} className='content-card' style={{ maxWidth: 600, margin: '20px auto', padding: '20px' }}>
-                <Title level={2}>Reserve a {vehicle.brand} {vehicle.model}</Title>
+                <Title level={2} style={{ textAlign: 'center' }}>Reserve a {vehicle.brand} {vehicle.model}</Title>
                 <Form onFinish={onSubmit} layout="vertical">
                     <Form.Item label="Start Date" required>
                         <Controller
@@ -116,8 +118,12 @@ const Reservation = () => {
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" block>Submit Reservation</Button>
+                        <Button style={{fontWeight: 'bold'}} type="primary" htmlType="submit" block>Submit Reservation</Button>
                     </Form.Item>
+                    <Divider style={{ borderColor: '#333' }}>or</Divider>
+                    <Button type="primary" onClick={() => navigate(-1)} style={{fontSize: '20px', width: '100%', backgroundColor: '#595959' }}>
+                        <ArrowLeftOutlined /> Back to Fleet
+                    </Button>
                 </Form>
             </Card>
         </div>
