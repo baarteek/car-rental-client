@@ -12,6 +12,7 @@ import {
   DashboardOutlined as MileageOutlined
 } from '@ant-design/icons';
 import {  useNavigate } from 'react-router-dom';
+import '../App.css';
 
 const { Text } = Typography;
 
@@ -27,13 +28,14 @@ const VehicleCard = ({ vehicle }) => {
 
     return (
         <Card
+            className='content-card'
             hoverable={!isUnavailable}
             onClick={handleCardClick}
             style={{ 
                 width: '100%', 
                 margin: '20px 0',
                 opacity: isUnavailable ? 0.7 : 1,
-                cursor: isUnavailable ? 'not-allowed' : 'pointer' 
+                cursor: isUnavailable ? 'not-allowed' : 'pointer',
             }}
         >
             <Row align="middle">
@@ -42,7 +44,7 @@ const VehicleCard = ({ vehicle }) => {
                         width: '100%', 
                         maxHeight: '300px', 
                         objectFit: 'contain', 
-                        paddingRight: '10%'
+                        paddingRight: '10%',
                     }} />
                 </Col>
                 <Col span={12}>

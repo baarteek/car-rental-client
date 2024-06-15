@@ -24,8 +24,8 @@ const HeaderComponents = () => {
     };
 
     return (
-        <Affix offsetTop={0}>
-            <Header>
+        <Affix className='content-card'  offsetTop={0} style={{margin: 0, padding: 0}}>
+            <Header  style={{marginBottom: 0}}>
                 <Menu theme="light" mode="horizontal" selectedKeys={[selectedKey]} style={styles.fullWidthMenu}>
                     <div style={styles.logo}><Link to="/" onClick={() => setSelectedKey('1')}>Car Rental</Link></div>
                     <Menu.Item key="1" onClick={() => setSelectedKey('1')}>
@@ -41,7 +41,7 @@ const HeaderComponents = () => {
                         <Link to="/">Contact</Link>
                     </Menu.Item>
                     <Menu.Item key="5" onClick={() => setSelectedKey('5')}>
-                        <Link to="/">About Us</Link>
+                        <Link to="/aboutus">About Us</Link>
                     </Menu.Item>
                     {
                         isLoggedIn ? (

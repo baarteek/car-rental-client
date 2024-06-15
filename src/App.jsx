@@ -9,6 +9,7 @@ import { MenuProvider } from './context/MenuProvider';
 import Booking from './views/Booking';
 import Fleet from './views/Fleet';
 import Reservation from './views/Reservation';
+import AboutUs from './views/AboutUs';
 
 const { Header, Content } = Layout;
 
@@ -16,7 +17,7 @@ function App() {
   return (
     <Router>
       <Layout>
-      <MenuProvider>
+        <MenuProvider>
           <HeaderComponents />
           <Content>
             <Routes>
@@ -25,6 +26,7 @@ function App() {
               <Route path="/registration" element={<Registration />} />
               <Route path="/booking" element={<Booking />} />
               <Route path="/fleet" element={<Fleet />} />
+              <Route path="/aboutus" element={<AboutUs />} />
               <Route path="/reserve/:vehicleId" element={<Reservation />} />
             </Routes>
           </Content>

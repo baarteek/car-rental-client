@@ -4,7 +4,7 @@ import { useMenu } from "../context/MenuProvider";
 import { useState } from "react";
 import axios from "axios";
 import { UserAddOutlined } from "@ant-design/icons";
-
+import '../App.css';
 
 const Registration = () => {
     const navigate = useNavigate();
@@ -39,12 +39,12 @@ const Registration = () => {
         }
     };
     
-      const onFinishFailed = (errorInfo) => {
+    const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-      };
+    };
 
     return (
-        <div className="mainContainer">
+        <div className="login-container">
             <Form
                 name="registration"
                 className="loginForm"

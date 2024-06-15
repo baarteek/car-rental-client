@@ -1,23 +1,40 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
 .ant-layout-header {
   background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 2%;
 }
 
-body{
-  margin: 0;
-  background-color: #f0f2f5;
+.mainContainer {
+  height: 100%;
+  background-image: url('/src/assets/background.jpg');
+  background-size: cover;
+  background-attachment: fixed;
 }
 
-.mainContainer {
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 100vh;
+  background-color: #f0f2f5;
+  background-image: url('/src/assets/background.jpg');
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .loginForm {
-  padding: 5% ;
+  padding: 5%;
   padding-top: 3%;
   padding-bottom: 3%;
   background: #fff;
@@ -25,4 +42,18 @@ body{
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5%;
   width: 35%;
+  background-color: rgba(255, 255, 255, 0.92);
 }
+
+.loginForm * {
+  opacity: 1;
+}
+
+.content-card {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.content-card * {
+  opacity: 1;
+}
+

@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import { DatePicker, Button, Form, Input, notification, Card, Typography, Select } from 'antd';
 import { useParams } from 'react-router-dom';
-import moment from 'moment';
 import dayjs from 'dayjs';
+import '../App.css';
 
 const { Title, Paragraph } = Typography;
 const { Option } = Select;
@@ -67,58 +67,60 @@ const Reservation = () => {
     };
 
     return (
-        <Card bordered={true} style={{ maxWidth: 600, margin: '20px auto', padding: '20px' }}>
-            <Title level={2}>Reserve a {vehicle.brand} {vehicle.model}</Title>
-            <Form onFinish={onSubmit} layout="vertical">
-                <Form.Item label="Start Date" required>
-                    <Controller
-                        name="start_date"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => <DatePicker {...field} format="YYYY-MM-DD" onChange={(date) => setStartDate(date)} />}
-                    />
-                </Form.Item>
-                <Form.Item label="End Date" required>
-                    <Controller
-                        name="end_date"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => <DatePicker {...field} format="YYYY-MM-DD" onChange={(date) => setEndDate(date)} />}
-                    />
-                </Form.Item>
-                <Form.Item label="Insurance" required>
-                    <Controller
-                        name="insurance_id"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                            <Select {...field} placeholder="Select insurance">
-                                {insurances.map(insurance => (
-                                    <Option key={insurance.insuranceID} value={insurance.insuranceID.toString()}>
-                                        {insurance.name} - {insurance.pricePerDay} PLN/day
-                                    </Option>
-                                ))}
-                            </Select>
-                        )}
-                    />
-                </Form.Item>
-                {selectedInsurance && (
-                    <Paragraph>
-                        <strong>Description:</strong> {selectedInsurance.description}
-                    </Paragraph>
-                )}
-                <Form.Item label="Notes">
-                    <Controller
-                        name="notes"
-                        control={control}
-                        render={({ field }) => <Input.TextArea {...field} rows={4} placeholder="Add your comments" />}
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" block>Submit Reservation</Button>
-                </Form.Item>
-            </Form>
-        </Card>
+        <div className='mainContainer' style={{padding: '5%'}}>
+            <Card bordered={true} className='content-card' style={{ maxWidth: 600, margin: '20px auto', padding: '20px' }}>
+                <Title level={2}>Reserve a {vehicle.brand} {vehicle.model}</Title>
+                <Form onFinish={onSubmit} layout="vertical">
+                    <Form.Item label="Start Date" required>
+                        <Controller
+                            name="start_date"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => <DatePicker {...field} format="YYYY-MM-DD" onChange={(date) => setStartDate(date)} />}
+                        />
+                    </Form.Item>
+                    <Form.Item label="End Date" required>
+                        <Controller
+                            name="end_date"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => <DatePicker {...field} format="YYYY-MM-DD" onChange={(date) => setEndDate(date)} />}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Insurance" required>
+                        <Controller
+                            name="insurance_id"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <Select {...field} placeholder="Select insurance">
+                                    {insurances.map(insurance => (
+                                        <Option key={insurance.insuranceID} value={insurance.insuranceID.toString()}>
+                                            {insurance.name} - {insurance.pricePerDay} PLN/day
+                                        </Option>
+                                    ))}
+                                </Select>
+                            )}
+                        />
+                    </Form.Item>
+                    {selectedInsurance && (
+                        <Paragraph>
+                            <strong>Description:</strong> {selectedInsurance.description}
+                        </Paragraph>
+                    )}
+                    <Form.Item label="Notes">
+                        <Controller
+                            name="notes"
+                            control={control}
+                            render={({ field }) => <Input.TextArea {...field} rows={4} placeholder="Add your comments" />}
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" block>Submit Reservation</Button>
+                    </Form.Item>
+                </Form>
+            </Card>
+        </div>
     );
 };
 

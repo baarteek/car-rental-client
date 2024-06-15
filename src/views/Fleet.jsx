@@ -2,6 +2,7 @@ import { Col, Row } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import VehicleCard from '../components/VehicleCard';
+import '../App.css';
 
 const Fleet = () => {
     const [vehicles, setVehicles] = useState([]);
@@ -26,7 +27,7 @@ const Fleet = () => {
     }, []);
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5%' }}>
+        <div className='mainContainer' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '5%' }}>
             <Row gutter={[16, 16]} style={{ width: '100%' }}>
                 {vehicles.map(vehicle => (
                     <Col key={vehicle.vehicle_id} span={24}>
