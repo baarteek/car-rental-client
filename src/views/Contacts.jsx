@@ -16,7 +16,7 @@ const Contacts = () => {
               <MailOutlined style={{ ...styles.contactsIcon, color: '#1890ff' }} />
               <Title level={4}>Email</Title>
               <Paragraph>
-                <Text copyable>contact@company.com</Text>
+                <Text copyable>contact@carrental.com</Text>
               </Paragraph>
               <Paragraph>
                 For general inquiries, please email us. We aim to respond within 24 hours.

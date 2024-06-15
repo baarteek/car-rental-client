@@ -11,6 +11,7 @@ import Fleet from './views/Fleet';
 import Reservation from './views/Reservation';
 import AboutUs from './views/AboutUs';
 import Contacts from './views/Contacts';
+import FooterComponents from './components/FooterComponents';
 
 const { Header, Content } = Layout;
 
@@ -32,6 +33,7 @@ function App() {
               <Route path="/reserve/:vehicleId" element={<Reservation />} />
             </Routes>
           </Content>
+          <FooterComponents />
         </MenuProvider>
       </Layout>
     </Router>
