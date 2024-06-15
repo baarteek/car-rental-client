@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, List, Button, Row, Col } from 'antd';
+import { Card, List, Button, Row, Col, Typography } from 'antd';
 import {
   CarOutlined,
   DashboardOutlined,
@@ -12,11 +12,20 @@ import {
   DashboardOutlined as MileageOutlined
 } from '@ant-design/icons';
 
+const { Text } = Typography;
+
 const VehicleCard = ({ vehicle }) => {
+    const isUnavailable = vehicle.status === 'rented' || vehicle.status === 'in service';
+
     return (
         <Card
-            hoverable
-            style={{ width: '100%', margin: '20px 0' }}
+            hoverable={!isUnavailable}
+            style={{ 
+                width: '100%', 
+                margin: '20px 0',
+                opacity: isUnavailable ? 0.7 : 1,
+                cursor: isUnavailable ? 'not-allowed' : 'pointer' 
+            }}
         >
             <Row align="middle">
                 <Col span={12}>
@@ -31,7 +40,7 @@ const VehicleCard = ({ vehicle }) => {
                     <h1>{vehicle.brand} {vehicle.model}</h1>
                     <Card.Meta
                         description={`Year of Manufacture: ${vehicle.yearOfManufacture}`}
-                        style={{ marginBottom: '20px',}}
+                        style={{ marginBottom: '20px'}}
                     />
                     <List size="small">
                         <List.Item>
@@ -56,13 +65,13 @@ const VehicleCard = ({ vehicle }) => {
                             <MileageOutlined /> Mileage: <b>{vehicle.mileage} km</b>
                         </List.Item>
                         <List.Item>
-                            <FundOutlined /> Status: <b>{vehicle.status}</b>
+                            <FundOutlined /> Status: {isUnavailable ? <Text type="danger">Unavailable</Text> : <b>{vehicle.status}</b>}
                         </List.Item>
                         <List.Item style={{fontSize: '22px', fontWeight: 'bold', marginTop: '1%'}}>
                             <DollarCircleOutlined style={{marginRight: '1%'}}/>Price per day: <b style={{color: 'green', fontSize: '22px'}}>{vehicle.pricePerDay} PLN</b>
                         </List.Item>
                     </List>
-                    <Button style={{marginTop: '1%', fontWeight: 'bold'}} type="primary" block>Reserve</Button>
+                    <Button style={{marginTop: '1%', fontWeight: 'bold'}} type="primary" block disabled={isUnavailable}>Reserve</Button>
                 </Col>
             </Row>
         </Card>
