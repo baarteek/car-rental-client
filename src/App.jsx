@@ -6,6 +6,8 @@ import Registration from './views/Registration';
 import HeaderComponents from './components/HeaderComponents';
 import './App.css';
 import { MenuProvider } from './context/MenuProvider';
+import Booking from './views/Booking';
+import Fleet from './views/Fleet';
 
 const { Header, Content } = Layout;
 
@@ -20,6 +22,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registration" element={<Registration />} />
+              <Route path="/booking" element={<Booking />} />
+              <Route path="/fleet" element={<Fleet />} />
             </Routes>
           </Content>
         </MenuProvider>

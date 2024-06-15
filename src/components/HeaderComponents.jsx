@@ -28,38 +28,38 @@ const HeaderComponents = () => {
             <Header>
                 <Menu theme="light" mode="horizontal" selectedKeys={[selectedKey]} style={styles.fullWidthMenu}>
                     <div style={styles.logo}><Link to="/" onClick={() => setSelectedKey('1')}>Car Rental</Link></div>
-                    <Menu.Item key="home" onClick={() => setSelectedKey('1')}>
+                    <Menu.Item key="1" onClick={() => setSelectedKey('1')}>
                         <Link to="/">Home</Link>
                     </Menu.Item>
-                    <Menu.Item key="booking" onClick={() => setSelectedKey('2')}>
-                        <Link to="/">Booking</Link>
+                    <Menu.Item key="2" onClick={() => setSelectedKey('2')}>
+                        <Link to="/booking">Booking</Link>
                     </Menu.Item>
-                    <Menu.Item key="fleet" onClick={() => setSelectedKey('3')}>
-                        <Link to="/">Fleet</Link>
+                    <Menu.Item key="3" onClick={() => setSelectedKey('3')}>
+                        <Link to="/fleet">Fleet</Link>
                     </Menu.Item>
-                    <Menu.Item key="contact" onClick={() => setSelectedKey('4')}>
+                    <Menu.Item key="4" onClick={() => setSelectedKey('4')}>
                         <Link to="/">Contact</Link>
                     </Menu.Item>
-                    <Menu.Item key="about" onClick={() => setSelectedKey('5')}>
+                    <Menu.Item key="5" onClick={() => setSelectedKey('5')}>
                         <Link to="/">About Us</Link>
                     </Menu.Item>
                     {
                         isLoggedIn ? (
                             <>
-                            <Menu.Item key="myAccount" style={styles.menuRight} onClick={() => setSelectedKey('8')}>
+                            <Menu.Item key="8" style={styles.menuRight} onClick={() => setSelectedKey('8')}>
                                 <Link to="/">My Account</Link>
                             </Menu.Item>
-                            <Menu.Item key="logout" onClick={showConfirm}>
+                            <Menu.Item key="9" onClick={showConfirm}>
                                 <Link to="/" style={{color: 'red', fontWeight: '500'}}>Log Out</Link>
                                 <LogoutOutlined style={{color: 'red', marginLeft: '10%', fontSize: '15px'}} />
                             </Menu.Item>
                             </>
                         ) : (
                             <>
-                            <Menu.Item key="login" style={styles.menuRight} onClick={() => setSelectedKey('6')}>
+                            <Menu.Item key="6" style={styles.menuRight} onClick={() => setSelectedKey('6')}>
                                 <Link to="/login">Log In</Link>
                             </Menu.Item>
-                            <Menu.Item key="signup" onClick={() => setSelectedKey('7')}>
+                            <Menu.Item key="7" onClick={() => setSelectedKey('7')}>
                                 <Link to="/registration">Sign Up</Link>
                             </Menu.Item>
                             </>
