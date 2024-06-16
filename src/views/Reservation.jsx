@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
-import { DatePicker, Button, Form, Input, notification, Card, Typography, Select, Divider } from 'antd';
+import { DatePicker, Button, Form, Input, notification, Card, Typography, Select, Divider, Modal } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import '../App.css';
+import { useAuth } from '../context/AuthProvider';
 
 const { Title, Paragraph } = Typography;
 const { Option } = Select;
 
 const Reservation = () => {
     const { vehicleId } = useParams();
+    const { isLoggedIn, userId } = useAuth();  // Dodanie userId z kontekstu
     const navigate = useNavigate();
     const [vehicle, setVehicle] = useState({});
     const [insurances, setInsurances] = useState([]);
@@ -23,6 +25,7 @@ const Reservation = () => {
     });
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [notes, setNotes] = useState('');
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/v1/vehicles/${vehicleId}`)
@@ -49,7 +52,54 @@ const Reservation = () => {
         setSelectedInsurance(currentInsurance);
     }, [insuranceId, insurances]);
 
-    const onSubmit = ()  => {
+    const handlePayment = async () => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/paypal/pay', {
+                total: 1.0,
+                currency: 'PLN',
+                method: 'paypal',
+                intent: 'sale',
+                description: 'Car rental payment',
+                vehicleId: vehicleId,
+                insuranceId: insuranceId,
+                startDate: startDate.format('YYYY-MM-DD'),
+                endDate: endDate.format('YYYY-MM-DD'),
+                notes: notes,
+                userId: userId // Dodanie userId do requestu
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            if (response.data) {
+                const paymentUrl = new URL(response.data);
+                paymentUrl.searchParams.append('vehicleId', vehicleId);
+                paymentUrl.searchParams.append('insuranceId', insuranceId);
+                paymentUrl.searchParams.append('startDate', startDate.format('YYYY-MM-DD'));
+                paymentUrl.searchParams.append('endDate', endDate.format('YYYY-MM-DD'));
+                paymentUrl.searchParams.append('notes', notes);
+                paymentUrl.searchParams.append('userId', userId); // Dodanie userId do URL
+
+                window.location.href = paymentUrl.toString();
+            }
+        } catch (error) {
+            console.error('Payment error', error);
+        }
+    };
+
+    const onSubmit = () => {
+        if (!isLoggedIn) {
+            Modal.confirm({
+                title: 'Login Required',
+                content: 'You need to be logged in to make a reservation. Would you like to log in now?',
+                onOk() {
+                    navigate("/login");
+                },
+            });
+            return;
+        }
+
         if (!endDate || !startDate) {
             notification.error({
                 message: 'Invalid Date Range',
@@ -66,6 +116,7 @@ const Reservation = () => {
             return;
         }
 
+        handlePayment();
     };
 
     return (
@@ -114,7 +165,7 @@ const Reservation = () => {
                         <Controller
                             name="notes"
                             control={control}
-                            render={({ field }) => <Input.TextArea {...field} rows={4} placeholder="Add your comments" />}
+                            render={({ field }) => <Input.TextArea {...field} rows={4} placeholder="Add your comments" onChange={(e) => setNotes(e.target.value)} />}
                         />
                     </Form.Item>
                     <Form.Item>

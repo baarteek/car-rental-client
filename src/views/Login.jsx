@@ -19,7 +19,7 @@ const Login = () => {
                 email: values.email,
                 password: values.password,
             });
-            login(response.data.token);
+            login(response.data.token, response.data.userId); 
             console.log('Login successful', response.data);
             setError('');
             navigate('/');
@@ -33,12 +33,21 @@ const Login = () => {
         console.log('Failed:', errorInfo);
     };
 
-    const handleGoogleLoginSuccess = (credentialResponse) => {
-        login(credentialResponse.credential);
-        console.log('Google login successful:', credentialResponse.credential);
-        setError('');
-        navigate('/');
+    const handleGoogleLoginSuccess = async (credentialResponse) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/auth/google', {
+                token: credentialResponse.credential,
+            });
+            login(response.data.token, response.data.userId); 
+            console.log('Google login successful:', response.data);
+            setError('');
+            navigate('/');
+        } catch (error) {
+            console.error('Google login failed:', error);
+            setError('Google login failed. Please try again.');
+        }
     };
+    
 
     const handleGoogleLoginFailure = (error) => {
         console.error('Google login failed:', error);

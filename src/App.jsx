@@ -12,6 +12,8 @@ import Reservation from './views/Reservation';
 import AboutUs from './views/AboutUs';
 import Contacts from './views/Contacts';
 import FooterComponents from './components/FooterComponents';
+import PaymentSuccess from './views/PaymentSuccess';
+import PaymentFailure from './views/PaymentFailure';
 
 const { Header, Content } = Layout;
 
@@ -31,6 +33,8 @@ function App() {
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/aboutus" element={<AboutUs />} />
               <Route path="/reserve/:vehicleId" element={<Reservation />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-failure" element={<PaymentFailure />} />
             </Routes>
           </Content>
           <FooterComponents />

@@ -43,8 +43,8 @@ const Contacts = () => {
               <HomeOutlined style={{ ...styles.contactsIcon, color: '#fa8c16' }} />
               <Title level={4}>Address</Title>
               <Paragraph>
-                123 Main Street, <br />
-                Springfield, USA
+                Main Street 12<br />
+                Kielce, Poland
               </Paragraph>
               <Paragraph>
                 Visit our office for any in-person inquiries.

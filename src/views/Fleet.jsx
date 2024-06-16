@@ -1,4 +1,4 @@
-import { Col, Row, Typography, Card } from 'antd';
+import { Col, Row, Typography, Card, Alert } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import VehicleCard from '../components/VehicleCard';
@@ -9,6 +9,7 @@ const { Title, Paragraph } = Typography;
 
 const Fleet = () => {
     const [vehicles, setVehicles] = useState([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/v1/vehicles/')
@@ -26,6 +27,7 @@ const Fleet = () => {
             })
             .catch(error => {
                 console.error('Error fetching vehicles:', error);
+                setError('Failed to load vehicle data. Please try again later.');
             });
     }, []);
 
@@ -45,13 +47,23 @@ const Fleet = () => {
                     </Card>
                 </Col>
             </Row>
-            <Row gutter={[16, 16]} style={{ width: '100%' }}>
-                {vehicles.map(vehicle => (
-                    <Col key={vehicle.vehicle_id} span={24}>
-                        <VehicleCard vehicle={vehicle} />
-                    </Col>
-                ))}
-            </Row>
+            {error ? (
+                <Alert
+                    message="Error"
+                    description={error}
+                    type="error"
+                    showIcon
+                    style={{ width: '100%', marginBottom: '20px' }}
+                />
+            ) : (
+                <Row gutter={[16, 16]} style={{ width: '100%' }}>
+                    {vehicles.map(vehicle => (
+                        <Col key={vehicle.vehicle_id} span={24}>
+                            <VehicleCard vehicle={vehicle} />
+                        </Col>
+                    ))}
+                </Row>
+            )}
         </div>
     );
 };

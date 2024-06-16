@@ -6,6 +6,7 @@ import {
   InstagramOutlined,
   LinkedinOutlined,
 } from '@ant-design/icons';
+import Paragraph from 'antd/es/skeleton/Paragraph';
 
 const { Footer } = Layout;
 const { Text, Title, Link } = Typography;
@@ -15,8 +16,14 @@ const FooterComponents = () => {
     <Footer style={styles.footer}>
       <Row justify="center" style={styles.row}>
         <Col xs={24} sm={12} md={6} style={styles.col}>
-          <Title level={5} style={styles.title}>About Us</Title>
-          <Text style={styles.text}>We are a leading car rental company offering a wide range of vehicles to meet all your needs.</Text>
+          <Title level={5} style={styles.title}>Address</Title>
+            <Text style={styles.text}>
+              Main Street 12 <br />
+              Kielce, Poland <br />
+            </Text>
+            <Text style={styles.text}>
+              Visit our office for any in-person inquiries.
+            </Text>
         </Col>
         <Col xs={24} sm={12} md={6} style={styles.col}>
           <Title level={5} style={styles.title}>Contact Us</Title>
