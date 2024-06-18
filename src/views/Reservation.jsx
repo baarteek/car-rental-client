@@ -30,6 +30,7 @@ const Reservation = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [notes, setNotes] = useState('');
+    const [totalCost, setTotalCost] = useState(0);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/v1/vehicles/${vehicleId}`)
@@ -74,10 +75,18 @@ const Reservation = () => {
         return current && (current < dayjs().startOf('day') || isDateReserved(current));
     };
 
+    const calculateTotalCost = (start, end, vehiclePricePerDay, insurancePricePerDay) => {
+        if (!start || !end) return 0;
+        const days = dayjs(end).diff(dayjs(start), 'day') + 1;
+        const vehicleCost = days * vehiclePricePerDay;
+        const insuranceCost = selectedInsurance ? days * insurancePricePerDay : 0;
+        return vehicleCost + insuranceCost;
+    };
+
     const handlePayment = async () => {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/paypal/pay', {
-                total: 1.0,
+                total: totalCost,
                 currency: 'PLN',
                 method: 'paypal',
                 intent: 'sale',
@@ -146,6 +155,7 @@ const Reservation = () => {
             return;
         }
 
+        setTotalCost(calculateTotalCost(startDate, endDate, vehicle.pricePerDay, selectedInsurance ? selectedInsurance.pricePerDay : 0));
         handlePayment();
     };
 
@@ -163,7 +173,10 @@ const Reservation = () => {
                                 <DatePicker 
                                     {...field} 
                                     format="YYYY-MM-DD" 
-                                    onChange={(date) => setStartDate(date)} 
+                                    onChange={(date) => { 
+                                        setStartDate(date); 
+                                        setTotalCost(calculateTotalCost(date, endDate, vehicle.pricePerDay, selectedInsurance ? selectedInsurance.pricePerDay : 0));
+                                    }} 
                                     disabledDate={disabledDate}
                                 />
                             )}
@@ -178,7 +191,10 @@ const Reservation = () => {
                                 <DatePicker 
                                     {...field} 
                                     format="YYYY-MM-DD" 
-                                    onChange={(date) => setEndDate(date)} 
+                                    onChange={(date) => { 
+                                        setEndDate(date); 
+                                        setTotalCost(calculateTotalCost(startDate, date, vehicle.pricePerDay, selectedInsurance ? selectedInsurance.pricePerDay : 0));
+                                    }} 
                                     disabledDate={disabledDate}
                                 />
                             )}
@@ -190,7 +206,16 @@ const Reservation = () => {
                             control={control}
                             rules={{ required: true }}
                             render={({ field }) => (
-                                <Select {...field} placeholder="Select insurance">
+                                <Select 
+                                    {...field} 
+                                    placeholder="Select insurance"
+                                    onChange={(value) => {
+                                        setValue('insurance_id', value);
+                                        const currentInsurance = insurances.find(ins => ins.insuranceID.toString() === value);
+                                        setSelectedInsurance(currentInsurance);
+                                        setTotalCost(calculateTotalCost(startDate, endDate, vehicle.pricePerDay, currentInsurance ? currentInsurance.pricePerDay : 0));
+                                    }}
+                                >
                                     {insurances.map(insurance => (
                                         <Option key={insurance.insuranceID} value={insurance.insuranceID.toString()}>
                                             {insurance.name} - {insurance.pricePerDay} PLN/day
@@ -213,6 +238,7 @@ const Reservation = () => {
                         />
                     </Form.Item>
                     <Form.Item>
+                        <Paragraph style={{ fontSize: '20px', fontWeight: 'bold' }}>Total Cost: {totalCost} PLN</Paragraph>
                         <Button style={{fontWeight: 'bold'}} type="primary" htmlType="submit" block>Submit Reservation</Button>
                     </Form.Item>
                     <Divider style={{ borderColor: '#333' }}>or</Divider>
