@@ -18,7 +18,7 @@ const { Text } = Typography;
 
 const VehicleCard = ({ vehicle }) => {
     const navigate = useNavigate()
-    const isUnavailable = vehicle.status === 'rented' || vehicle.status === 'in service';
+    const isUnavailable = vehicle.status === 'in service';
 
     const handleCardClick = () => {
         if (!isUnavailable) {

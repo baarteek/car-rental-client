@@ -5,19 +5,23 @@ import { DatePicker, Button, Form, Input, notification, Card, Typography, Select
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
 import '../App.css';
 import { useAuth } from '../context/AuthProvider';
+
+dayjs.extend(isBetween);
 
 const { Title, Paragraph } = Typography;
 const { Option } = Select;
 
 const Reservation = () => {
     const { vehicleId } = useParams();
-    const { isLoggedIn, userId } = useAuth();  // Dodanie userId z kontekstu
+    const { isLoggedIn, userId } = useAuth();
     const navigate = useNavigate();
     const [vehicle, setVehicle] = useState({});
     const [insurances, setInsurances] = useState([]);
     const [selectedInsurance, setSelectedInsurance] = useState(null);
+    const [reservedDates, setReservedDates] = useState([]);
     const { control, handleSubmit, setValue, watch } = useForm({
         defaultValues: {
             insurance_id: 1  
@@ -43,6 +47,16 @@ const Reservation = () => {
                 }
             })
             .catch(error => console.error('Error fetching insurances:', error));
+
+        axios.get(`http://localhost:8080/api/v1/rentals/vehicle/${vehicleId}/future`)
+            .then(response => {
+                const reservedRanges = response.data.map(rental => ({
+                    start: dayjs(rental.startDate),
+                    end: dayjs(rental.endDate)
+                }));
+                setReservedDates(reservedRanges);
+            })
+            .catch(error => console.error('Error fetching reserved dates:', error));
     }, [vehicleId, setValue]);
 
     const insuranceId = watch('insurance_id');
@@ -51,6 +65,14 @@ const Reservation = () => {
         const currentInsurance = insurances.find(ins => ins.insuranceID.toString() === insuranceId);
         setSelectedInsurance(currentInsurance);
     }, [insuranceId, insurances]);
+
+    const isDateReserved = (date) => {
+        return reservedDates.some(range => date.isSame(range.start, 'day') || date.isSame(range.end, 'day') || (date.isAfter(range.start, 'day') && date.isBefore(range.end, 'day')));
+    };
+
+    const disabledDate = (current) => {
+        return current && (current < dayjs().startOf('day') || isDateReserved(current));
+    };
 
     const handlePayment = async () => {
         try {
@@ -65,7 +87,7 @@ const Reservation = () => {
                 startDate: startDate.format('YYYY-MM-DD'),
                 endDate: endDate.format('YYYY-MM-DD'),
                 notes: notes,
-                userId: userId // Dodanie userId do requestu
+                userId: userId
             }, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -79,7 +101,7 @@ const Reservation = () => {
                 paymentUrl.searchParams.append('startDate', startDate.format('YYYY-MM-DD'));
                 paymentUrl.searchParams.append('endDate', endDate.format('YYYY-MM-DD'));
                 paymentUrl.searchParams.append('notes', notes);
-                paymentUrl.searchParams.append('userId', userId); // Dodanie userId do URL
+                paymentUrl.searchParams.append('userId', userId);
 
                 window.location.href = paymentUrl.toString();
             }
@@ -116,6 +138,14 @@ const Reservation = () => {
             return;
         }
 
+        if (isDateReserved(startDate) || isDateReserved(endDate)) {
+            notification.error({
+                message: 'Date Unavailable',
+                description: 'Selected dates overlap with existing reservations.'
+            });
+            return;
+        }
+
         handlePayment();
     };
 
@@ -129,7 +159,14 @@ const Reservation = () => {
                             name="start_date"
                             control={control}
                             rules={{ required: true }}
-                            render={({ field }) => <DatePicker {...field} format="YYYY-MM-DD" onChange={(date) => setStartDate(date)} />}
+                            render={({ field }) => (
+                                <DatePicker 
+                                    {...field} 
+                                    format="YYYY-MM-DD" 
+                                    onChange={(date) => setStartDate(date)} 
+                                    disabledDate={disabledDate}
+                                />
+                            )}
                         />
                     </Form.Item>
                     <Form.Item label="End Date" required>
@@ -137,7 +174,14 @@ const Reservation = () => {
                             name="end_date"
                             control={control}
                             rules={{ required: true }}
-                            render={({ field }) => <DatePicker {...field} format="YYYY-MM-DD" onChange={(date) => setEndDate(date)} />}
+                            render={({ field }) => (
+                                <DatePicker 
+                                    {...field} 
+                                    format="YYYY-MM-DD" 
+                                    onChange={(date) => setEndDate(date)} 
+                                    disabledDate={disabledDate}
+                                />
+                            )}
                         />
                     </Form.Item>
                     <Form.Item label="Insurance" required>

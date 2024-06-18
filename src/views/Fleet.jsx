@@ -15,11 +15,11 @@ const Fleet = () => {
         axios.get('http://localhost:8080/api/v1/vehicles/')
             .then(response => {
                 const sortedVehicles = response.data.sort((a, b) => {
-                    if (a.status === 'available' && b.status !== 'available') {
-                        return -1; 
-                    }
-                    if (a.status !== 'available' && b.status === 'available') {
+                    if (a.status === 'in service' && b.status !== 'in service') {
                         return 1;
+                    }
+                    if (a.status !== 'in service' && b.status === 'in service') {
+                        return -1;
                     }
                     return 0;
                 });
@@ -30,6 +30,8 @@ const Fleet = () => {
                 setError('Failed to load vehicle data. Please try again later.');
             });
     }, []);
+       
+    
 
     return (
         <div className='mainContainer' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '5%' }}>
