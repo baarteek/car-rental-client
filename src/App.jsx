@@ -14,32 +14,40 @@ import Contacts from './views/Contacts';
 import FooterComponents from './components/FooterComponents';
 import PaymentSuccess from './views/PaymentSuccess';
 import PaymentFailure from './views/PaymentFailure';
+import PrivateRoute from './components/PrivateRoute';
+import { AuthProvider } from './context/AuthProvider'; 
+import MyAccount from './views/MyAccount';
 
 const { Header, Content } = Layout;
 
 function App() {
   return (
     <Router>
-      <Layout>
-        <MenuProvider>
-          <HeaderComponents />
-          <Content>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/registration" element={<Registration />} />
-              <Route path="/booking" element={<Booking />} />
-              <Route path="/fleet" element={<Fleet />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/aboutus" element={<AboutUs />} />
-              <Route path="/reserve/:vehicleId" element={<Reservation />} />
-              <Route path="/payment-success" element={<PaymentSuccess />} />
-              <Route path="/payment-failure" element={<PaymentFailure />} />
-            </Routes>
-          </Content>
-          <FooterComponents />
-        </MenuProvider>
-      </Layout>
+      <AuthProvider>
+        <Layout>
+          <MenuProvider>
+            <HeaderComponents />
+            <Content>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/registration" element={<Registration />} />
+                <Route path="/booking" element={<Booking />} />
+                <Route path="/fleet" element={<Fleet />} />
+                <Route path="/contacts" element={<Contacts />} />
+                <Route path="/aboutus" element={<AboutUs />} />
+                <Route path="/reserve/:vehicleId" element={<Reservation />} />
+                <Route element={<PrivateRoute />}>
+                  <Route path="/payment-success" element={<PaymentSuccess />} />
+                  <Route path="/payment-failure" element={<PaymentFailure />} />
+                  <Route path="/account" element={<MyAccount />} />
+                </Route>
+              </Routes>
+            </Content>
+            <FooterComponents />
+          </MenuProvider>
+        </Layout>
+      </AuthProvider>
     </Router>
   );
 }
