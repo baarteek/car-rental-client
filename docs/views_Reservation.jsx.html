@@ -1,4 +1,32 @@
-import React, { useEffect, useState } from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/Reservation.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/Reservation.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import { DatePicker, Button, Form, Input, notification, Card, Typography, Select, Divider, Modal } from 'antd';
@@ -80,7 +108,7 @@ const Reservation = () => {
      * @returns {boolean} True, jeśli data jest zarezerwowana, w przeciwnym razie false.
      */
     const isDateReserved = (date) => {
-        return reservedDates.some(range => date.isSame(range.start, 'day') || date.isSame(range.end, 'day') || (date.isAfter(range.start, 'day') && date.isBefore(range.end, 'day')));
+        return reservedDates.some(range => date.isSame(range.start, 'day') || date.isSame(range.end, 'day') || (date.isAfter(range.start, 'day') &amp;&amp; date.isBefore(range.end, 'day')));
     };
 
 
@@ -91,7 +119,7 @@ const Reservation = () => {
      * @returns {boolean} True, jeśli data jest wyłączona, w przeciwnym razie false.
      */
     const disabledDate = (current) => {
-        return current && (current < dayjs().startOf('day') || isDateReserved(current));
+        return current &amp;&amp; (current &lt; dayjs().startOf('day') || isDateReserved(current));
     };
 
     /**
@@ -233,17 +261,17 @@ const Reservation = () => {
     };
 
     return (
-        <div className='mainContainer' style={{padding: '5%'}}>
-            <Card bordered={true} className='content-card' style={{ maxWidth: 600, margin: '20px auto', padding: '20px' }}>
-                <Title level={2} style={{ textAlign: 'center' }}>Reserve a {vehicle.brand} {vehicle.model}</Title>
-                <Form onFinish={() => onSubmit('now')} layout="vertical">
-                    <Form.Item label="Start Date" required>
-                        <Controller
+        &lt;div className='mainContainer' style={{padding: '5%'}}>
+            &lt;Card bordered={true} className='content-card' style={{ maxWidth: 600, margin: '20px auto', padding: '20px' }}>
+                &lt;Title level={2} style={{ textAlign: 'center' }}>Reserve a {vehicle.brand} {vehicle.model}&lt;/Title>
+                &lt;Form onFinish={() => onSubmit('now')} layout="vertical">
+                    &lt;Form.Item label="Start Date" required>
+                        &lt;Controller
                             name="start_date"
                             control={control}
                             rules={{ required: true }}
                             render={({ field }) => (
-                                <DatePicker 
+                                &lt;DatePicker 
                                     {...field} 
                                     format="YYYY-MM-DD" 
                                     onChange={(date) => { 
@@ -254,14 +282,14 @@ const Reservation = () => {
                                 />
                             )}
                         />
-                    </Form.Item>
-                    <Form.Item label="End Date" required>
-                        <Controller
+                    &lt;/Form.Item>
+                    &lt;Form.Item label="End Date" required>
+                        &lt;Controller
                             name="end_date"
                             control={control}
                             rules={{ required: true }}
                             render={({ field }) => (
-                                <DatePicker 
+                                &lt;DatePicker 
                                     {...field} 
                                     format="YYYY-MM-DD" 
                                     onChange={(date) => { 
@@ -272,14 +300,14 @@ const Reservation = () => {
                                 />
                             )}
                         />
-                    </Form.Item>
-                    <Form.Item label="Insurance" required>
-                        <Controller
+                    &lt;/Form.Item>
+                    &lt;Form.Item label="Insurance" required>
+                        &lt;Controller
                             name="insurance_id"
                             control={control}
                             rules={{ required: true }}
                             render={({ field }) => (
-                                <Select 
+                                &lt;Select 
                                     {...field} 
                                     placeholder="Select insurance"
                                     onChange={(value) => {
@@ -290,39 +318,62 @@ const Reservation = () => {
                                     }}
                                 >
                                     {insurances.map(insurance => (
-                                        <Option key={insurance.insuranceID} value={insurance.insuranceID.toString()}>
+                                        &lt;Option key={insurance.insuranceID} value={insurance.insuranceID.toString()}>
                                             {insurance.name} - {insurance.pricePerDay} PLN/day
-                                        </Option>
+                                        &lt;/Option>
                                     ))}
-                                </Select>
+                                &lt;/Select>
                             )}
                         />
-                    </Form.Item>
-                    {selectedInsurance && (
-                        <Paragraph>
-                            <strong>Description:</strong> {selectedInsurance.description}
-                        </Paragraph>
+                    &lt;/Form.Item>
+                    {selectedInsurance &amp;&amp; (
+                        &lt;Paragraph>
+                            &lt;strong>Description:&lt;/strong> {selectedInsurance.description}
+                        &lt;/Paragraph>
                     )}
-                    <Form.Item label="Notes">
-                        <Controller
+                    &lt;Form.Item label="Notes">
+                        &lt;Controller
                             name="notes"
                             control={control}
-                            render={({ field }) => <Input.TextArea {...field} rows={4} placeholder="Add your comments" onChange={(e) => setNotes(e.target.value)} />}
+                            render={({ field }) => &lt;Input.TextArea {...field} rows={4} placeholder="Add your comments" onChange={(e) => setNotes(e.target.value)} />}
                         />
-                    </Form.Item>
-                    <Form.Item>
-                        <Paragraph style={{ fontSize: '20px', fontWeight: 'bold' }}>Total Cost: {totalCost} PLN</Paragraph>
-                        <Button style={{fontWeight: 'bold'}} type="primary" htmlType="submit" block>Pay Now</Button>
-                    </Form.Item>
-                    <Button style={{fontWeight: 'bold'}} type="default" onClick={() => onSubmit('later')} block>Pay Later</Button>
-                    <Divider style={{ borderColor: '#333' }}>or</Divider>
-                    <Button type="primary" onClick={() => navigate(-1)} style={{fontSize: '20px', width: '100%', backgroundColor: '#595959' }}>
-                        <ArrowLeftOutlined /> Back to Fleet
-                    </Button>
-                </Form>
-            </Card>
-        </div>
+                    &lt;/Form.Item>
+                    &lt;Form.Item>
+                        &lt;Paragraph style={{ fontSize: '20px', fontWeight: 'bold' }}>Total Cost: {totalCost} PLN&lt;/Paragraph>
+                        &lt;Button style={{fontWeight: 'bold'}} type="primary" htmlType="submit" block>Pay Now&lt;/Button>
+                    &lt;/Form.Item>
+                    &lt;Button style={{fontWeight: 'bold'}} type="default" onClick={() => onSubmit('later')} block>Pay Later&lt;/Button>
+                    &lt;Divider style={{ borderColor: '#333' }}>or&lt;/Divider>
+                    &lt;Button type="primary" onClick={() => navigate(-1)} style={{fontSize: '20px', width: '100%', backgroundColor: '#595959' }}>
+                        &lt;ArrowLeftOutlined /> Back to Fleet
+                    &lt;/Button>
+                &lt;/Form>
+            &lt;/Card>
+        &lt;/div>
     );
 };
 
 export default Reservation;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutUs">AboutUs</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Booking">Booking</a></li><li><a href="global.html#Contacts">Contacts</a></li><li><a href="global.html#Fleet">Fleet</a></li><li><a href="global.html#FooterComponents">FooterComponents</a></li><li><a href="global.html#HeaderComponents">HeaderComponents</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#MenuProvider">MenuProvider</a></li><li><a href="global.html#PayPalButtonWrapper">PayPalButtonWrapper</a></li><li><a href="global.html#PaymentFailure">PaymentFailure</a></li><li><a href="global.html#PaymentSuccess">PaymentSuccess</a></li><li><a href="global.html#PrivateRoute">PrivateRoute</a></li><li><a href="global.html#Registration">Registration</a></li><li><a href="global.html#Reservation">Reservation</a></li><li><a href="global.html#VehicleCard">VehicleCard</a></li><li><a href="global.html#styles">styles</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useMenu">useMenu</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Jun 20 2024 22:22:25 GMT+0200 (czas środkowoeuropejski letni)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

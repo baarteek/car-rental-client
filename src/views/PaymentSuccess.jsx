@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 const { Title, Paragraph } = Typography;
 
+/**
+ * Komponent PaymentSuccess jest komponentem funkcyjnym Reacta, który renderuje stronę informującą o pomyślnym dokonaniu płatności.
+ * Umożliwia użytkownikowi nawigację do strony floty pojazdów.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony pomyślnego dokonania płatności.
+ */
 const PaymentSuccess = () => {
     const navigate = useNavigate();
 

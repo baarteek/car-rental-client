@@ -7,12 +7,24 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
 import '../App.css';
 
+/**
+ * Komponent Login jest komponentem funkcyjnym Reacta, który renderuje stronę logowania.
+ * Umożliwia użytkownikom logowanie się za pomocą adresu e-mail, hasła lub konta Google.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony logowania.
+ */
 const Login = () => {
     const navigate = useNavigate();
     const { setSelectedKey } = useMenu();
     const { login } = useAuth();
     const [error, setError] = useState('');
 
+    /**
+     * Obsługuje pomyślne zakończenie formularza logowania.
+     * Wysyła dane logowania do API i loguje użytkownika po otrzymaniu odpowiedzi.
+     *
+     * @param {Object} values - Wartości formularza logowania.
+     */
     const onFinish = async (values) => {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate', {
@@ -29,10 +41,22 @@ const Login = () => {
         }
     };
 
+
+    /**
+     * Obsługuje niepowodzenie formularza logowania.
+     *
+     * @param {Object} errorInfo - Informacje o błędzie formularza.
+     */
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
+     /**
+     * Obsługuje pomyślne logowanie za pomocą konta Google.
+     * Wysyła token Google do API i loguje użytkownika po otrzymaniu odpowiedzi.
+     *
+     * @param {Object} credentialResponse - Odpowiedź z tokenem Google.
+     */
     const handleGoogleLoginSuccess = async (credentialResponse) => {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/auth/google', {
@@ -49,6 +73,11 @@ const Login = () => {
     };
     
 
+     /**
+     * Obsługuje niepowodzenie logowania za pomocą konta Google.
+     *
+     * @param {Object} error - Informacje o błędzie logowania Google.
+     */
     const handleGoogleLoginFailure = (error) => {
         console.error('Google login failed:', error);
         setError('Google login failed. Please try again.');

@@ -16,10 +16,22 @@ import '../App.css';
 
 const { Text } = Typography;
 
+/**
+ * Komponent VehicleCard jest komponentem funkcyjnym Reacta, który renderuje kartę pojazdu z jego szczegółami.
+ * Umożliwia również nawigację do strony rezerwacji, jeśli pojazd jest dostępny.
+ *
+ * @param {Object} props - Właściwości przekazywane do komponentu.
+ * @param {Object} props.vehicle - Obiekt zawierający szczegóły pojazdu.
+ * @returns {JSX.Element} Renderowany komponent karty pojazdu.
+ */
 const VehicleCard = ({ vehicle }) => {
     const navigate = useNavigate()
     const isUnavailable = vehicle.status === 'in service';
 
+    /**
+     * Obsługuje kliknięcie na kartę pojazdu.
+     * Przekierowuje użytkownika do strony rezerwacji, jeśli pojazd jest dostępny.
+     */
     const handleCardClick = () => {
         if (!isUnavailable) {
             navigate(`/reserve/${vehicle.vehicleID}`);

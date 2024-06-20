@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 const { Title, Paragraph } = Typography;
 
+/**
+ * Komponent PaymentFailure jest komponentem funkcyjnym Reacta, który renderuje stronę informującą o niepowodzeniu płatności.
+ * Umożliwia użytkownikowi nawigację do strony floty pojazdów.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony niepowodzenia płatności.
+ */
 const PaymentFailure = () => {
     const navigate = useNavigate();
 

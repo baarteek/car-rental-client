@@ -6,11 +6,20 @@ import axios from "axios";
 import { UserAddOutlined } from "@ant-design/icons";
 import '../App.css';
 
+/**
+ * Komponent Registration jest komponentem funkcyjnym Reacta, który renderuje stronę rejestracji.
+ * Umożliwia użytkownikom rejestrację poprzez podanie adresu e-mail, hasła i potwierdzenie hasła.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony rejestracji.
+ */
 const Registration = () => {
     const navigate = useNavigate();
     const {setSelectedKey} = useMenu();
     const [error, setError] = useState('');
 
+        /**
+     * Wyświetla modal z potwierdzeniem sukcesu rejestracji.
+     */
     const showSuccessModal = () => {
         Modal.confirm({
             title: 'Registration Successful',
@@ -24,6 +33,12 @@ const Registration = () => {
         });
     };
 
+    /**
+     * Obsługuje pomyślne zakończenie formularza rejestracji.
+     * Wysyła dane rejestracyjne do API i wyświetla modal potwierdzenia po pomyślnym utworzeniu konta.
+     *
+     * @param {Object} values - Wartości formularza rejestracji.
+     */
     const onFinish = async (values) => {
         try {
             const resonse = await axios.post("http://localhost:8080/api/v1/auth/register", {
@@ -39,6 +54,11 @@ const Registration = () => {
         }
     };
     
+    /**
+     * Obsługuje niepowodzenie formularza rejestracji.
+     *
+     * @param {Object} errorInfo - Informacje o błędzie formularza.
+     */
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };

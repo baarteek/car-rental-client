@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/Login.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/Login.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import { Alert, Button, Checkbox, Divider, Form, Input } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMenu } from '../context/MenuProvider';
+import { useAuth } from '../context/AuthProvider';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import axios from 'axios';
+import '../App.css';
+
+/**
+ * Komponent Login jest komponentem funkcyjnym Reacta, który renderuje stronę logowania.
+ * Umożliwia użytkownikom logowanie się za pomocą adresu e-mail, hasła lub konta Google.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony logowania.
+ */
+const Login = () => {
+    const navigate = useNavigate();
+    const { setSelectedKey } = useMenu();
+    const { login } = useAuth();
+    const [error, setError] = useState('');
+
+    /**
+     * Obsługuje pomyślne zakończenie formularza logowania.
+     * Wysyła dane logowania do API i loguje użytkownika po otrzymaniu odpowiedzi.
+     *
+     * @param {Object} values - Wartości formularza logowania.
+     */
+    const onFinish = async (values) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate', {
+                email: values.email,
+                password: values.password,
+            });
+            login(response.data.token, response.data.userId); 
+            console.log('Login successful', response.data);
+            setError('');
+            navigate('/');
+        } catch (error) {
+            const errorMsg = error.response?.data?.message || 'Login failed. Please check your credentials.';
+            setError(errorMsg);
+        }
+    };
+
+
+    /**
+     * Obsługuje niepowodzenie formularza logowania.
+     *
+     * @param {Object} errorInfo - Informacje o błędzie formularza.
+     */
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
+     /**
+     * Obsługuje pomyślne logowanie za pomocą konta Google.
+     * Wysyła token Google do API i loguje użytkownika po otrzymaniu odpowiedzi.
+     *
+     * @param {Object} credentialResponse - Odpowiedź z tokenem Google.
+     */
+    const handleGoogleLoginSuccess = async (credentialResponse) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/auth/google', {
+                token: credentialResponse.credential,
+            });
+            login(response.data.token, response.data.userId); 
+            console.log('Google login successful:', response.data);
+            setError('');
+            navigate('/');
+        } catch (error) {
+            console.error('Google login failed:', error);
+            setError('Google login failed. Please try again.');
+        }
+    };
+    
+
+     /**
+     * Obsługuje niepowodzenie logowania za pomocą konta Google.
+     *
+     * @param {Object} error - Informacje o błędzie logowania Google.
+     */
+    const handleGoogleLoginFailure = (error) => {
+        console.error('Google login failed:', error);
+        setError('Google login failed. Please try again.');
+    };
+
+    return (
+        &lt;GoogleOAuthProvider clientId='397639903179-pjtd5jcqghmi0624a3n3ulegor5lv294.apps.googleusercontent.com' >
+            &lt;div className="login-container">
+                &lt;Form
+                    name="login"
+                    className="loginForm"
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                >
+                    &lt;div style={{ fontSize: '42px', fontWeight: 'bold', textAlign: 'center', color: '#1890ff', marginBottom: '5%' }}>Log In&lt;/div>
+                    &lt;Divider />
+                    &lt;div>E-mail&lt;/div>
+                    &lt;Form.Item name="email" rules={[{ required: true, message: 'Please input your E-mail', type: 'email' }]}>
+                        &lt;Input placeholder="user@email.com" />
+                    &lt;/Form.Item>
+                    &lt;div>Password&lt;/div>
+                    &lt;Form.Item name="password" rules={[{ required: true, message: 'Please input your password' }]}>
+                        &lt;Input.Password placeholder="********" />
+                    &lt;/Form.Item>
+                    &lt;Form.Item name="remember" valuePropName="checked" noStyle>
+                        &lt;Checkbox style={{ marginTop: '1%' }}>Remember me&lt;/Checkbox>
+                    &lt;/Form.Item>
+                    {error &amp;&amp; &lt;Alert message={error} type="error" showIcon closable style={{ marginTop: '3%' }} />}
+                    &lt;Form.Item>
+                        &lt;Button type="primary" htmlType="submit" className="login-form-button" style={{ width: '100%', marginTop: '8%', fontWeight: 'bold', fontSize: '15px' }}>
+                            Log in
+                        &lt;/Button>
+                    &lt;/Form.Item>
+                    &lt;Divider style={{ borderColor: '#333' }}>or&lt;/Divider>
+                    &lt;div style={{ width: '100%', textAlign: 'center', marginBottom: '10px' }}>
+                        &lt;GoogleLogin
+                            onSuccess={handleGoogleLoginSuccess}
+                            onError={handleGoogleLoginFailure}
+                            cookiePolicy={'single_host_origin'}
+                        />
+                    &lt;/div>
+                    &lt;div style={{ width: '100%', textAlign: 'center' }}>
+                        &lt;Link to="/registration" onClick={() => setSelectedKey('7')} style={{ fontWeight: 'bold', fontSize: '18px' }}>Create an account&lt;/Link>
+                    &lt;/div>
+                &lt;/Form>
+            &lt;/div>
+        &lt;/GoogleOAuthProvider>
+    );
+};
+
+export default Login;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutUs">AboutUs</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Booking">Booking</a></li><li><a href="global.html#Contacts">Contacts</a></li><li><a href="global.html#Fleet">Fleet</a></li><li><a href="global.html#FooterComponents">FooterComponents</a></li><li><a href="global.html#HeaderComponents">HeaderComponents</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#MenuProvider">MenuProvider</a></li><li><a href="global.html#PayPalButtonWrapper">PayPalButtonWrapper</a></li><li><a href="global.html#PaymentFailure">PaymentFailure</a></li><li><a href="global.html#PaymentSuccess">PaymentSuccess</a></li><li><a href="global.html#PrivateRoute">PrivateRoute</a></li><li><a href="global.html#Registration">Registration</a></li><li><a href="global.html#Reservation">Reservation</a></li><li><a href="global.html#VehicleCard">VehicleCard</a></li><li><a href="global.html#styles">styles</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useMenu">useMenu</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Jun 20 2024 22:22:25 GMT+0200 (czas środkowoeuropejski letni)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

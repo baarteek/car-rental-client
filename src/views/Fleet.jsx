@@ -7,11 +7,20 @@ import '../App.css';
 
 const { Title, Paragraph } = Typography;
 
+/**
+ * Komponent Fleet jest komponentem funkcyjnym Reacta, który renderuje stronę floty pojazdów.
+ * Pobiera dane pojazdów z API, sortuje je i wyświetla na stronie.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony floty pojazdów.
+ */
 const Fleet = () => {
     const [vehicles, setVehicles] = useState([]);
     const [error, setError] = useState('');
 
     useEffect(() => {
+         /**
+         * Pobiera dane pojazdów z API i sortuje je według statusu.
+         */
         axios.get('http://localhost:8080/api/v1/vehicles/')
             .then(response => {
                 const sortedVehicles = response.data.sort((a, b) => {

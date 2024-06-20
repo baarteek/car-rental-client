@@ -4,6 +4,12 @@ import { MailOutlined, PhoneOutlined, HomeOutlined, GlobalOutlined, ClockCircleO
 
 const { Title, Paragraph, Text } = Typography;
 
+/**
+ * Komponent Contacts jest komponentem funkcyjnym Reacta, który renderuje stronę kontaktową.
+ * Zawiera informacje kontaktowe, takie jak email, telefon, adres, strona internetowa, godziny pracy biura i zespół wsparcia.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony kontaktowej.
+ */
 const Contacts = () => {
   return (
     <div className='mainContainer' style={styles.contactsContainer}>

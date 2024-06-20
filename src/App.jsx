@@ -20,6 +20,11 @@ import MyAccount from './views/MyAccount';
 
 const { Header, Content } = Layout;
 
+/**
+ * Główna aplikacja, która zawiera routing i kontekst autoryzacji.
+ *
+ * @returns {JSX.Element} Główny komponent aplikacji.
+ */
 function App() {
   return (
     <Router>

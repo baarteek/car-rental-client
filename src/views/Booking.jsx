@@ -20,6 +20,11 @@ const { Title, Paragraph } = Typography;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
+/**
+ * Komponent Booking jest komponentem funkcyjnym Reacta, który umożliwia wyszukiwanie i filtrowanie pojazdów do wynajmu.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony rezerwacji pojazdów.
+ */
 const Booking = () => {
     const [vehicles, setVehicles] = useState([]);
     const [filteredVehicles, setFilteredVehicles] = useState([]);
@@ -50,6 +55,9 @@ const Booking = () => {
         applyFilters();
     }, [vehicles]);
 
+    /**
+     * Pobiera wszystkie dostępne pojazdy z API.
+     */
     const fetchAllVehicles = () => {
         axios.get('http://localhost:8080/api/v1/vehicles/available')
             .then(response => {
@@ -62,6 +70,9 @@ const Booking = () => {
             });
     };
 
+    /**
+     * Zastosowuje filtry do listy pojazdów.
+     */
     const applyFilters = () => {
         let filtered = vehicles.filter(vehicle =>
             vehicle.status !== 'in service' &&
@@ -87,14 +98,28 @@ const Booking = () => {
         setFilteredVehicles(filtered);
     };
 
+     /**
+     * Obsługuje zmianę filtrów.
+     * 
+     * @param {Object} changedValues - Zmienione wartości filtrów.
+     * @param {Object} allValues - Wszystkie wartości filtrów.
+     */
     const handleFilterChange = (changedValues, allValues) => {
         setFilters(allValues);
     };
 
+    /**
+     * Obsługuje zmianę wybranej marki pojazdu.
+     * 
+     * @param {string} value - Wybrana marka pojazdu.
+     */
     const handleBrandChange = (value) => {
         setSelectedBrand(value);
     };
 
+     /**
+     * Obsługuje wyszukiwanie pojazdów na podstawie wybranych dat.
+     */
     const handleSearch = () => {
         if (dates.length === 2) {
             const [startDate, endDate] = dates;

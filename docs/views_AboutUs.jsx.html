@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/AboutUs.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/AboutUs.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { Card, Row, Col, Typography, Layout } from 'antd';
+import { FaUserTie, FaUserCog, FaUserShield, FaUserMd } from 'react-icons/fa';
+import '../App.css';
+
+const { Title, Paragraph, Text } = Typography;
+const { Content } = Layout;
+
+const teamMembers = [
+    {
+        name: 'John Doe',
+        position: 'CEO',
+        description: 'John is the visionary behind our company, leading us towards unprecedented success.',
+        icon: &lt;FaUserTie size={64} style={{ color: '#ff4d4f' }} />  
+    },
+    {
+        name: 'Jane Smith',
+        position: 'CTO',
+        description: 'Jane is the tech genius, constantly pushing the boundaries of innovation.',
+        icon: &lt;FaUserCog size={64} style={{ color: '#52c41a' }} />
+    },
+    {
+        name: 'Mike Johnson',
+        position: 'CFO',
+        description: 'Mike ensures our financial stability and growth with his expertise.',
+        icon: &lt;FaUserShield size={64} style={{ color: '#1890ff' }} />  
+    },
+    {
+        name: 'Emily Brown',
+        position: 'COO',
+        description: 'Emily manages our operations with efficiency and excellence.',
+        icon: &lt;FaUserMd size={64} style={{ color: '#faad14' }} /> 
+    },
+];
+
+/**
+ * Obiekt stylów dla komponentu AboutUs.
+ * @type {Object}
+ */
+const styles = {
+    iconContainer: {
+        width: '100px',
+        height: '100px',
+        borderRadius: '50%',
+        backgroundColor: '#f0f2f5',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: '5% auto'
+    },
+};
+
+/**
+ * Komponent AboutUs jest komponentem funkcyjnym Reacta, który renderuje stronę "O nas".
+ * Zawiera informacje o firmie, jej misji, wartościach oraz członkach zespołu.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony "O nas".
+ */
+const AboutUs = () => {
+    return (
+        &lt;Layout className='mainContainer'>
+            &lt;Content style={{padding: '5%'}}>
+                &lt;Card bordered={false} className='content-card' style={{ maxWidth: 1000, margin: '0 auto', padding: '2%'}}>
+                    &lt;Title level={2} style={{ textAlign: 'center' }}>About Us&lt;/Title>
+                    &lt;Paragraph style={{ textAlign: 'center', marginBottom: '40px' }}>
+                        We are a leading car rental company, offering a wide range of vehicles to meet every customer’s needs. Our mission is to provide top-notch services at the most competitive prices.
+                    &lt;/Paragraph>
+                    &lt;Title level={3}>Our Mission&lt;/Title>
+                    &lt;Paragraph>
+                        Our mission is to deliver unforgettable car rental experiences to our customers through our commitment to quality, innovation, and customer satisfaction.
+                    &lt;/Paragraph>
+                    &lt;Title level={3}>Our Values&lt;/Title>
+                    &lt;Paragraph>
+                        &lt;ul>
+                            &lt;li>&lt;Text strong>Quality:&lt;/Text> We strive to deliver services of the highest standard.&lt;/li>
+                            &lt;li>&lt;Text strong>Innovation:&lt;/Text> We continuously introduce new solutions to enhance our customers' experiences.&lt;/li>
+                            &lt;li>&lt;Text strong>Customer Satisfaction:&lt;/Text> The customer is at the heart of everything we do.&lt;/li>
+                            &lt;li>&lt;Text strong>Trust:&lt;/Text> We build long-term relationships based on trust and integrity.&lt;/li>
+                        &lt;/ul>
+                    &lt;/Paragraph>
+                    &lt;Title level={3} style={{ textAlign: 'center', marginTop: '40px' }}>Our Team&lt;/Title>
+                    &lt;Row gutter={[16, 16]} style={{ marginTop: '20px' }}>
+                        {teamMembers.map((member, index) => (
+                            &lt;Col xs={24} sm={12} md={12} lg={12} xl={12} key={index}>
+                                &lt;Card
+                                    bordered={false}
+                                    className='content-card'
+                                    style={{ textAlign: 'center', padding: '3%' }}
+                                    cover={&lt;div style={styles.iconContainer}>{member.icon}&lt;/div>}
+                                >
+                                    &lt;Title style={{padding: 0, margin: 0}} level={4}>{member.name}&lt;/Title>
+                                    &lt;Paragraph type="secondary">{member.position}&lt;/Paragraph>
+                                    &lt;Paragraph>{member.description}&lt;/Paragraph>
+                                &lt;/Card>
+                            &lt;/Col>
+                        ))}
+                    &lt;/Row>
+                &lt;/Card>
+            &lt;/Content>
+        &lt;/Layout>
+    );
+};
+
+export default AboutUs;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AboutUs">AboutUs</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#Booking">Booking</a></li><li><a href="global.html#Contacts">Contacts</a></li><li><a href="global.html#Fleet">Fleet</a></li><li><a href="global.html#FooterComponents">FooterComponents</a></li><li><a href="global.html#HeaderComponents">HeaderComponents</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#MenuProvider">MenuProvider</a></li><li><a href="global.html#PayPalButtonWrapper">PayPalButtonWrapper</a></li><li><a href="global.html#PaymentFailure">PaymentFailure</a></li><li><a href="global.html#PaymentSuccess">PaymentSuccess</a></li><li><a href="global.html#PrivateRoute">PrivateRoute</a></li><li><a href="global.html#Registration">Registration</a></li><li><a href="global.html#Reservation">Reservation</a></li><li><a href="global.html#VehicleCard">VehicleCard</a></li><li><a href="global.html#styles">styles</a></li><li><a href="global.html#useAuth">useAuth</a></li><li><a href="global.html#useMenu">useMenu</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Thu Jun 20 2024 22:22:25 GMT+0200 (czas środkowoeuropejski letni)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

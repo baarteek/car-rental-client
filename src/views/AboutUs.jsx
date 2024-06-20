@@ -33,6 +33,10 @@ const teamMembers = [
     },
 ];
 
+/**
+ * Obiekt stylów dla komponentu AboutUs.
+ * @type {Object}
+ */
 const styles = {
     iconContainer: {
         width: '100px',
@@ -46,6 +50,12 @@ const styles = {
     },
 };
 
+/**
+ * Komponent AboutUs jest komponentem funkcyjnym Reacta, który renderuje stronę "O nas".
+ * Zawiera informacje o firmie, jej misji, wartościach oraz członkach zespołu.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony "O nas".
+ */
 const AboutUs = () => {
     return (
         <Layout className='mainContainer'>

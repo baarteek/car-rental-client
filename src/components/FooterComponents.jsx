@@ -11,6 +11,12 @@ import Paragraph from 'antd/es/skeleton/Paragraph';
 const { Footer } = Layout;
 const { Text, Title, Link } = Typography;
 
+/**
+ * Komponent FooterComponents jest komponentem funkcyjnym Reacta, który renderuje stopkę aplikacji.
+ * Zawiera sekcje adresowe, kontaktowe, przydatne linki oraz linki do mediów społecznościowych.
+ *
+ * @returns {JSX.Element} Renderowany komponent stopki.
+ */
 const FooterComponents = () => {
   return (
     <Footer style={styles.footer}>
@@ -75,6 +81,11 @@ const FooterComponents = () => {
   );
 };
 
+
+/**
+ * Obiekt stylów dla komponentu FooterComponents.
+ * @type {Object}
+ */
 const styles = {
   footer: {
     textAlign: 'center',

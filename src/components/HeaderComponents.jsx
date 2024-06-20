@@ -7,10 +7,20 @@ import { LogoutOutlined } from "@ant-design/icons";
 const { Header } = Layout;
 const { confirm } = Modal;
 
+/**
+ * Komponent HeaderComponents jest komponentem, który renderuje nagłówek aplikacji.
+ * Zawiera menu nawigacyjne, które umożliwia poruszanie się po stronach aplikacji, oraz funkcje logowania i wylogowywania.
+ *
+ * @returns {JSX.Element} Renderowany komponent nagłówka.
+ */
 const HeaderComponents = () => {
     const {selectedKey, setSelectedKey} = useMenu();
     const { isLoggedIn, logout } = useAuth();
 
+    /**
+     * Pokazuje okno dialogowe z potwierdzeniem wylogowania.
+     * Po potwierdzeniu wylogowuje użytkownika i resetuje klucz wybranego menu.
+     */
     const showConfirm = () => {
         confirm({
             title: 'Are you sure you want to log out?',
@@ -71,6 +81,10 @@ const HeaderComponents = () => {
     );
 };
 
+/**
+ * Obiekt stylów dla komponentu HeaderComponents.
+ * @type {Object}
+ */
 const styles = {
     fullWidthMenu: {
         display: 'flex',

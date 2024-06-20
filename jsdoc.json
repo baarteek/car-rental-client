@@ -1,0 +1,21 @@
+{
+    "source": {
+      "include": [
+        "src/components",
+        "src/context",
+        "src/views",
+        "src"
+      ],
+      "includePattern": ".jsx$",
+      "excludePattern": "(node_modules/|docs)"
+    },
+    "opts": {
+      "destination": "./docs"
+    },
+    "plugins": ["plugins/markdown"],
+    "templates": {
+      "cleverLinks": true,
+      "monospaceLinks": true
+    }
+  }
+  

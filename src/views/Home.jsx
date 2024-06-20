@@ -7,10 +7,19 @@ import { useMenu } from '../context/MenuProvider';
 
 const { Title, Paragraph } = Typography;
 
+/**
+ * Komponent Home jest komponentem funkcyjnym Reacta, który renderuje stronę główną serwisu wynajmu samochodów.
+ * Zawiera informacje o usługach firmy oraz umożliwia nawigację do strony rezerwacji pojazdów.
+ *
+ * @returns {JSX.Element} Renderowany komponent strony głównej.
+ */
 const Home = () => {
     const navigate = useNavigate();
     const { setSelectedKey } = useMenu()
 
+    /**
+     * Obsługuje kliknięcie przycisku rezerwacji, nawigując do strony rezerwacji i ustawiając wybrany klucz menu.
+     */
     const handleBookingClick = () => {
         navigate('/booking');
         setSelectedKey('2');
