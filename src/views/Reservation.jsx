@@ -30,7 +30,7 @@ const Reservation = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [notes, setNotes] = useState('');
-    const [totalCost, setTotalCost] = useState(0);
+    const [totalCost, setTotalCost] = useState(0.0);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/v1/vehicles/${vehicleId}`)
@@ -85,8 +85,9 @@ const Reservation = () => {
 
     const handlePayment = async () => {
         try {
+            const formattedTotalCost = totalCost.toFixed(2).toString();
             const response = await axios.post('http://localhost:8080/api/v1/paypal/pay', {
-                total: totalCost,
+                total: formattedTotalCost,
                 currency: 'PLN',
                 method: 'paypal',
                 intent: 'sale',
@@ -102,7 +103,7 @@ const Reservation = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
-
+    
             if (response.data) {
                 const paymentUrl = new URL(response.data);
                 paymentUrl.searchParams.append('vehicleId', vehicleId);
@@ -111,7 +112,7 @@ const Reservation = () => {
                 paymentUrl.searchParams.append('endDate', endDate.format('YYYY-MM-DD'));
                 paymentUrl.searchParams.append('notes', notes);
                 paymentUrl.searchParams.append('userId', userId);
-
+    
                 window.location.href = paymentUrl.toString();
             }
         } catch (error) {
@@ -119,7 +120,35 @@ const Reservation = () => {
         }
     };
 
-    const onSubmit = () => {
+    const handlePayLater = async () => {
+        try {
+            await axios.post('http://localhost:8080/api/v1/rentals', {
+                userId: userId,
+                vehicleId: vehicleId,
+                insuranceId: insuranceId,
+                startDate: startDate.format('YYYY-MM-DD'),
+                endDate: endDate.format('YYYY-MM-DD'),
+                notes: notes
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            notification.success({
+                message: 'Reservation Successful',
+                description: 'Your reservation has been made successfully. You can pay at the time of vehicle pickup.'
+            });
+            navigate('/');
+        } catch (error) {
+            console.error('Reservation error', error);
+            notification.error({
+                message: 'Reservation Error',
+                description: 'An error occurred while processing your reservation. Please try again.'
+            });
+        }
+    };
+
+    const onSubmit = (paymentMethod) => {
         if (!isLoggedIn) {
             Modal.confirm({
                 title: 'Login Required',
@@ -156,14 +185,19 @@ const Reservation = () => {
         }
 
         setTotalCost(calculateTotalCost(startDate, endDate, vehicle.pricePerDay, selectedInsurance ? selectedInsurance.pricePerDay : 0));
-        handlePayment();
+        
+        if (paymentMethod === 'now') {
+            handlePayment();
+        } else if (paymentMethod === 'later') {
+            handlePayLater();
+        }
     };
 
     return (
         <div className='mainContainer' style={{padding: '5%'}}>
             <Card bordered={true} className='content-card' style={{ maxWidth: 600, margin: '20px auto', padding: '20px' }}>
                 <Title level={2} style={{ textAlign: 'center' }}>Reserve a {vehicle.brand} {vehicle.model}</Title>
-                <Form onFinish={onSubmit} layout="vertical">
+                <Form onFinish={() => onSubmit('now')} layout="vertical">
                     <Form.Item label="Start Date" required>
                         <Controller
                             name="start_date"
@@ -239,8 +273,9 @@ const Reservation = () => {
                     </Form.Item>
                     <Form.Item>
                         <Paragraph style={{ fontSize: '20px', fontWeight: 'bold' }}>Total Cost: {totalCost} PLN</Paragraph>
-                        <Button style={{fontWeight: 'bold'}} type="primary" htmlType="submit" block>Submit Reservation</Button>
+                        <Button style={{fontWeight: 'bold'}} type="primary" htmlType="submit" block>Pay Now</Button>
                     </Form.Item>
+                    <Button style={{fontWeight: 'bold'}} type="default" onClick={() => onSubmit('later')} block>Pay Later</Button>
                     <Divider style={{ borderColor: '#333' }}>or</Divider>
                     <Button type="primary" onClick={() => navigate(-1)} style={{fontSize: '20px', width: '100%', backgroundColor: '#595959' }}>
                         <ArrowLeftOutlined /> Back to Fleet
