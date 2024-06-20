@@ -1,4 +1,4 @@
-import { Col, Row, Typography, Card, Alert, DatePicker, Button, Select, Checkbox, Form, Slider, Empty } from 'antd';
+import { Col, Row, Typography, Card, Alert, DatePicker, Button, Select, Form, Slider, Empty } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import VehicleCard from '../components/VehicleCard';
@@ -9,7 +9,6 @@ import {
     DashboardOutlined,
     SettingOutlined,
     FireOutlined,
-    CloudOutlined,
     RiseOutlined,
     ThunderboltOutlined,
     InfoCircleOutlined,
@@ -40,6 +39,18 @@ const Booking = () => {
     });
 
     useEffect(() => {
+        fetchAllVehicles();
+    }, []);
+
+    useEffect(() => {
+        applyFilters();
+    }, [selectedBrand, filters]);
+
+    useEffect(() => {
+        applyFilters();
+    }, [vehicles]);
+
+    const fetchAllVehicles = () => {
         axios.get('http://localhost:8080/api/v1/vehicles/available')
             .then(response => {
                 setVehicles(response.data);
@@ -49,14 +60,11 @@ const Booking = () => {
                 console.error('Error fetching vehicles:', error);
                 setError('Failed to load vehicle data. Please try again later.');
             });
-    }, []);
-
-    useEffect(() => {
-        applyFilters();
-    }, [selectedBrand, filters]);
+    };
 
     const applyFilters = () => {
         let filtered = vehicles.filter(vehicle =>
+            vehicle.status !== 'in service' &&
             (selectedBrand === 'All Brands' || vehicle.brand === selectedBrand) &&
             vehicle.yearOfManufacture >= filters.year[0] &&
             vehicle.yearOfManufacture <= filters.year[1] &&
@@ -88,7 +96,24 @@ const Booking = () => {
     };
 
     const handleSearch = () => {
-        // Implement date range search logic here if needed
+        if (dates.length === 2) {
+            const [startDate, endDate] = dates;
+            axios.get('http://localhost:8080/api/v1/vehicles/available-dates', {
+                params: {
+                    startDate: startDate.format('YYYY-MM-DD'),
+                    endDate: endDate.format('YYYY-MM-DD')
+                }
+            })
+            .then(response => {
+                setVehicles(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching vehicles for selected dates:', error);
+                setError('Failed to load vehicle data for selected dates. Please try again later.');
+            });
+        } else {
+            fetchAllVehicles();
+        }
     };
 
     const uniqueBrands = [...new Set(vehicles.map(vehicle => vehicle.brand))];
@@ -124,7 +149,7 @@ const Booking = () => {
                                 <DatePicker.RangePicker
                                     format="DD-MM-YYYY"
                                     value={dates}
-                                    onChange={(dates) => setDates(dates)}
+                                    onChange={(dates) => setDates(dates || [])}
                                     style={{ width: '100%' }}
                                 />
                             </Col>
@@ -155,50 +180,51 @@ const Booking = () => {
                                 <Slider range min={0.8} max={6.0} step={0.1} marks={{ 0.8: '0.8L', 6.0: '6.0L' }} />
                             </Form.Item>
                             <Form.Item label={<span><ThunderboltOutlined /> Engine Power (HP)</span>} name="enginePower">
-                                <Slider range min={50} max={1000} marks={{ 50: '50HP', 1000: '1000HP' }} />
-                            </Form.Item>
-                            <Form.Item label={<span><SettingOutlined /> Doors</span>} name="doors">
-                                <Slider range min={2} max={5} marks={{ 2: '2', 5: '5' }} />
-                            </Form.Item>
-                            <Form.Item label={<span><FireOutlined /> Fuel Consumption (L/100km)</span>} name="fuelConsumption">
-                                <Slider range min={3.0} max={20.0} step={0.1} marks={{ 3.0: '3.0L', 20.0: '20.0L' }} />
-                            </Form.Item>
-                            <Form.Item label={<span><RiseOutlined /> Mileage (km)</span>} name="mileage">
-                                <Slider range min={0} max={500000} step={10000} marks={{ 0: '0 km', 500000: '500,000 km' }} />
-                            </Form.Item>
-                            <Form.Item label={<span><DollarCircleOutlined /> Price Per Day (PLN)</span>} name="pricePerDay">
-                                <Slider range min={50} max={1000} marks={{ 50: '50 PLN', 1000: '1000 PLN' }} />
-                            </Form.Item>
-                            <Button type="primary" onClick={applyFilters} block style={{ marginTop: '10px' }}>Apply Filters</Button>
-                        </Form>
-                    </Card>
-                </Col>
-                <Col span={18}>
-                    {error ? (
-                        <Alert
-                            message="Error"
-                            description={error}
-                            type="error"
-                            showIcon
-                            style={{ width: '100%', marginBottom: '20px' }}
-                        />
-                    ) : filteredVehicles.length > 0 ? (
-                        <Row gutter={[16, 16]} style={{ width: '100%' }}>
-                            {filteredVehicles.map(vehicle => (
-                                <Col key={vehicle.vehicleID} span={24}>
-                                    <VehicleCard vehicle={vehicle} />
-                                </Col>
-                            ))}
-                        </Row>
-                    ) : (
-                        <Card className='content-card' style={{ textAlign: 'center' }}>
-                            <Empty description="No vehicles match the filters" />
+                                <Slider range min={50} max={1000}
+                                    marks={{ 50: '50HP', 1000: '1000HP' }} />
+                                </Form.Item>
+                                <Form.Item label={<span><SettingOutlined /> Doors</span>} name="doors">
+                                    <Slider range min={2} max={5} marks={{ 2: '2', 5: '5' }} />
+                                </Form.Item>
+                                <Form.Item label={<span><FireOutlined /> Fuel Consumption (L/100km)</span>} name="fuelConsumption">
+                                    <Slider range min={3.0} max={20.0} step={0.1} marks={{ 3.0: '3.0L', 20.0: '20.0L' }} />
+                                </Form.Item>
+                                <Form.Item label={<span><RiseOutlined /> Mileage (km)</span>} name="mileage">
+                                    <Slider range min={0} max={500000} step={10000} marks={{ 0: '0 km', 500000: '500,000 km' }} />
+                                </Form.Item>
+                                <Form.Item label={<span><DollarCircleOutlined /> Price Per Day (PLN)</span>} name="pricePerDay">
+                                    <Slider range min={50} max={1000} marks={{ 50: '50 PLN', 1000: '1000 PLN' }} />
+                                </Form.Item>
+                                <Button type="primary" onClick={applyFilters} block style={{ marginTop: '10px' }}>Apply Filters</Button>
+                            </Form>
                         </Card>
-                    )}
-                </Col>
-            </Row>
-        </div>
-    );
-};
+                    </Col>
+                    <Col span={18}>
+                        {error ? (
+                            <Alert
+                                message="Error"
+                                description={error}
+                                type="error"
+                                showIcon
+                                style={{ width: '100%', marginBottom: '20px' }}
+                            />
+                        ) : filteredVehicles.length > 0 ? (
+                            <Row gutter={[16, 16]} style={{ width: '100%' }}>
+                                {filteredVehicles.map(vehicle => (
+                                    <Col key={vehicle.vehicleID} span={24}>
+                                        <VehicleCard vehicle={vehicle} />
+                                    </Col>
+                                ))}
+                            </Row>
+                        ) : (
+                            <Card className='content-card' style={{ textAlign: 'center' }}>
+                                <Empty description="No vehicles match the filters" />
+                            </Card>
+                        )}
+                    </Col>
+                </Row>
+            </div>
+        );
+    };
 
-export default Booking;
+    export default Booking;
