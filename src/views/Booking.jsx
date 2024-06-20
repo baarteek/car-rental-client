@@ -1,4 +1,4 @@
-import { Col, Row, Typography, Card, Alert, DatePicker, Button, Input, Checkbox, Form, Slider, Empty } from 'antd';
+import { Col, Row, Typography, Card, Alert, DatePicker, Button, Select, Checkbox, Form, Slider, Empty } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import VehicleCard from '../components/VehicleCard';
@@ -19,12 +19,13 @@ import '../App.css';
 
 const { Title, Paragraph } = Typography;
 const { RangePicker } = DatePicker;
+const { Option } = Select;
 
 const Booking = () => {
     const [vehicles, setVehicles] = useState([]);
     const [filteredVehicles, setFilteredVehicles] = useState([]);
     const [error, setError] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState('All Brands');
     const [dates, setDates] = useState([]);
     const [filters, setFilters] = useState({
         year: [2000, 2024],
@@ -50,8 +51,13 @@ const Booking = () => {
             });
     }, []);
 
+    useEffect(() => {
+        applyFilters();
+    }, [selectedBrand, filters]);
+
     const applyFilters = () => {
         let filtered = vehicles.filter(vehicle =>
+            (selectedBrand === 'All Brands' || vehicle.brand === selectedBrand) &&
             vehicle.yearOfManufacture >= filters.year[0] &&
             vehicle.yearOfManufacture <= filters.year[1] &&
             vehicle.seats >= filters.seats[0] &&
@@ -77,9 +83,15 @@ const Booking = () => {
         setFilters(allValues);
     };
 
-    const handleSearch = () => {
-        applyFilters();
+    const handleBrandChange = (value) => {
+        setSelectedBrand(value);
     };
+
+    const handleSearch = () => {
+        // Implement date range search logic here if needed
+    };
+
+    const uniqueBrands = [...new Set(vehicles.map(vehicle => vehicle.brand))];
 
     return (
         <div className='mainContainer' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '5%' }}>
@@ -92,21 +104,28 @@ const Booking = () => {
                         </Title>
                         <Paragraph style={{ fontSize: '20px' }}>
                             <InfoCircleOutlined style={{ marginRight: '1%' }} />
-                            Please enter the vehicle name and select the rental dates to search for available vehicles.
+                            Please select the brand and rental dates to search for available vehicles.
                         </Paragraph>
                         <Row gutter={[16, 16]} align="middle">
-                            <Col span={12}>
-                                <Input 
-                                    placeholder="Enter vehicle name" 
-                                    value={searchTerm} 
-                                    onChange={(e) => setSearchTerm(e.target.value)} 
-                                />
-                            </Col>
                             <Col span={8}>
+                                <Select
+                                    placeholder="Select brand"
+                                    style={{ width: '100%' }}
+                                    onChange={handleBrandChange}
+                                    value={selectedBrand}
+                                >
+                                    <Option value="All Brands">All Brands</Option>
+                                    {uniqueBrands.map(brand => (
+                                        <Option key={brand} value={brand}>{brand}</Option>
+                                    ))}
+                                </Select>
+                            </Col>
+                            <Col span={12}>
                                 <DatePicker.RangePicker
                                     format="DD-MM-YYYY"
                                     value={dates}
                                     onChange={(dates) => setDates(dates)}
+                                    style={{ width: '100%' }}
                                 />
                             </Col>
                             <Col span={4}>
@@ -117,14 +136,14 @@ const Booking = () => {
                 </Col>
             </Row>
             <Row style={{ width: '100%' }}>
-                <Col span={6} style={{marginTop: '20px'}}>
-                    <Card className='content-card' style={{marginRight: '5%', textAlign: 'center'}}>
-                        <Title style={{fontWeight: 'bold', fontSize: '24px', margin: '5%'}} level={4}>Filter Vehicles</Title>
+                <Col span={6} style={{ marginTop: '20px' }}>
+                    <Card className='content-card' style={{ marginRight: '5%', textAlign: 'center' }}>
+                        <Title style={{ fontWeight: 'bold', fontSize: '24px', margin: '5%' }} level={4}>Filter Vehicles</Title>
                         <Form
                             layout="vertical"
                             initialValues={filters}
                             onValuesChange={handleFilterChange}
-                            style={{padding: '5%'}}
+                            style={{ padding: '5%' }}
                         >
                             <Form.Item label={<span><CalendarOutlined /> Year of Manufacture</span>} name="year">
                                 <Slider range min={2000} max={2024} marks={{ 2000: '2000', 2024: '2024' }} />
@@ -150,7 +169,7 @@ const Booking = () => {
                             <Form.Item label={<span><DollarCircleOutlined /> Price Per Day (PLN)</span>} name="pricePerDay">
                                 <Slider range min={50} max={1000} marks={{ 50: '50 PLN', 1000: '1000 PLN' }} />
                             </Form.Item>
-                            <Button type="primary" onClick={applyFilters} block style={{marginTop: '10px'}}>Apply Filters</Button>
+                            <Button type="primary" onClick={applyFilters} block style={{ marginTop: '10px' }}>Apply Filters</Button>
                         </Form>
                     </Card>
                 </Col>
